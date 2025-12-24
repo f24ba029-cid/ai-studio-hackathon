@@ -354,30 +354,34 @@
             const dateInput = document.getElementById(`visit-date-${spotId}`);
             const selectedDate = dateInput.value;
 
-            // 日付が選択されていないかチェックしていない
-            // 未来の日付かどうかをチェックしていない
-
-            if (selectedDate) {
-                // localStorageに保存
-                const checkinData = {
-                    spot: spotName,
-                    date: selectedDate,
-                    checkedAt: new Date().toISOString()
-                };
-
-                localStorage.setItem(`checkin_${spotId}`, JSON.stringify(checkinData));
-
-                alert(`${spotName}へのチェックインを記録しました！\n訪問日: ${selectedDate}`);
-
-                // 日付入力をクリア
-                dateInput.value = '';
-
-                // 表示を更新
-                updateCheckinDisplay(spotId);
-            } else {
+            // 未選択チェック
+            if (!selectedDate) {
                 alert('訪問日を選択してください');
+                return;
             }
+
+            // 未来日チェック
+            const selected = new Date(selectedDate);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            if (selected > today) {
+                alert('未来の日付は選択できません');
+                return;
+            }
+
+            const checkinData = {
+                spot: spotName,
+                date: selectedDate,
+                checkedAt: new Date().toISOString()
+            };
+
+            localStorage.setItem(`checkin_${spotId}`, JSON.stringify(checkinData));
+            alert(`${spotName}へのチェックインを記録しました！\n訪問日: ${selectedDate}`);
+            dateInput.value = '';
+            updateCheckinDisplay(spotId);
         }
+
 
         /**
          * チェックイン履歴の表示を更新
