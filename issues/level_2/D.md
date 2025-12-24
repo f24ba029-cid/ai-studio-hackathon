@@ -32,7 +32,7 @@ const fullStars = Math.floor(spot.avg_rating);
 const hasHalfStar = spot.avg_rating % 1 >= 0.5;
 const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
 const starsHtml = '★'.repeat(fullStars) + (hasHalfStar ? '☆' : '') + '☆'.repeat(emptyStars);
-const ratingText = spot.review_count > 0 ? `${starsHtml} ${Number(spot.avg_rating).toFixed(1)} (${spot.review_count}件のレビュー)` : '評価なし';
+const ratingText = spot.review_count > 0 ? `${starsHtml} ${spot.avg_rating} (${spot.review_count}件のレビュー)` : '評価なし';
 ```
 
 **ヒント:**
